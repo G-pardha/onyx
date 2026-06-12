@@ -1,0 +1,17 @@
+# Environment files - NEVER push these
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Node
+node_modules/
+dist/
+.next/
+
+# OS
+.DS_Store

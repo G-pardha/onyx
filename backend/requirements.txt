@@ -1,0 +1,14 @@
+groq
+fastapi
+uvicorn
+pydantic
+google-genai
+python-dotenv
+mistralai
+psycopg2-binary
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]
+huggingface_hub
+pillow
+python-multipart

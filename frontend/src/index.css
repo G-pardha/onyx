@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050816;
+  --color-surface: #0B1220;
+  --color-card: #111827;
+  --color-primary: #38BDF8;
+  --color-accent: #60A5FA;
+  --color-text: #F8FAFC;
+  --color-muted: #94A3B8;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.7; filter: brightness(1.2); }
+  }
+}
+
+@layer base {
+  .light {
+    --color-background: #f8fafc;
+    --color-surface: #f1f5f9;
+    --color-card: #ffffff;
+    --color-primary: #0284c7;
+    --color-accent: #3b82f6;
+    --color-text: #0f172a;
+    --color-muted: #64748b;
+  }
+
+  body {
+    @apply bg-background text-text font-sans antialiased overflow-hidden;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-card/60 backdrop-blur-xl border border-white/5 shadow-xl;
+  }
+  
+  .glass-button {
+    @apply bg-surface/50 hover:bg-surface/80 backdrop-blur-md border border-white/10 transition-all duration-200;
+  }
+  
+  .premium-shadow {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
