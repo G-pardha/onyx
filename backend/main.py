@@ -38,6 +38,13 @@ app.add_middleware(
 )
 
 
+# ── Health Check (for Render) ────────────────────────────────
+
+@app.get("/")
+async def health_check():
+    return {"status": "ok", "service": "Onyx AI Backend"}
+
+
 # ── Auth Models ──────────────────────────────────────────────
 
 class LoginRequest(BaseModel):
