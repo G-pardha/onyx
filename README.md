@@ -2,9 +2,9 @@
   <img src="https://img.shields.io/badge/Onyx-AI-00D4FF?style=for-the-badge&logo=openai&logoColor=white" alt="Onyx AI"/>
   <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19"/>
   <img src="https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/>
-  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
   <img src="https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
   <img src="https://img.shields.io/badge/TypeScript-6.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Hugging_Face-FLUX.1-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face"/>
 </p>
 
 <h1 align="center">
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <em>A stunning, multi-model AI chat platform with persistent conversations, image analysis, voice input, and a premium glassmorphic UI — all running self-hosted with a single Docker command.</em>
+  <em>A stunning, multi-model AI chat platform with persistent conversations, image analysis, AI image generation, voice input, and a premium glassmorphic UI — built with React 19 + FastAPI.</em>
 </p>
 
 ---
@@ -29,14 +29,15 @@
 - [🗂️ Project Structure](#️-project-structure)
 - [🚀 Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
-  - [Quick Start (Docker)](#-quick-start-docker)
-  - [Manual Setup (Development)](#-manual-setup-development)
+  - [Backend Setup](#️-backend-setup)
+  - [Frontend Setup](#-frontend-setup)
 - [🔐 Authentication](#-authentication)
 - [🤖 AI Models](#-ai-models)
+- [🎨 Image Generation](#-image-generation)
 - [📡 API Reference](#-api-reference)
 - [🖥️ Frontend Pages](#️-frontend-pages)
-- [🐳 Docker Details](#-docker-details)
 - [⚙️ Configuration](#️-configuration)
+- [🛠️ Tech Stack](#️-tech-stack)
 - [🛣️ Roadmap](#️-roadmap)
 - [📄 License](#-license)
 
@@ -44,12 +45,12 @@
 
 ## ✨ Overview
 
-**Onyx AI** is a self-hosted, multi-model AI chat application built by **Pardha**. It brings together three powerful AI providers — **Groq (Nexus)**, **Google Gemini**, and **Mistral AI** — into a single, beautifully-crafted interface. Each model has its own personality, strengths, and capabilities.
+**Onyx AI** is a multi-model AI chat application built by **Pardha**. It brings together four powerful AI capabilities — **Groq (Nexus)**, **Google Gemini**, **Mistral AI**, and **Hugging Face (FLUX.1 image generation)** — into a single, beautifully-crafted interface. Each chat model has its own personality, strengths, and capabilities.
 
-The platform features a dark-mode glassmorphic UI with smooth Framer Motion animations, JWT-based authentication, PostgreSQL-backed chat persistence, image analysis, voice input, a prompt library, and much more.
+The platform features a dark-mode glassmorphic UI with an animated starfield background, smooth Framer Motion animations, JWT-based authentication, PostgreSQL-backed chat persistence, image analysis, AI image generation, voice input, a prompt library, and much more.
 
 > 🧠 **Nexus** is brutally honest. **Gemini** is friendly and helpful. **Mistral** is calm and precise.
-> Pick the personality that matches your mood.
+> Pick the personality that matches your mood — or generate stunning images with **FLUX.1**.
 
 ---
 
@@ -70,6 +71,14 @@ The platform features a dark-mode glassmorphic UI with smooth Framer Motion anim
 | 📋 **Clipboard Paste** | `Ctrl+V` images directly into the chat input |
 | 📎 **File Attachments** | Attach multiple files with inline previews |
 
+### 🎨 AI Image Generation
+| Feature | Description |
+|---------|-------------|
+| 🪄 **FLUX.1-schnell** | Generate images from text prompts using Hugging Face's FLUX.1 model |
+| 💡 **Prompt Suggestions** | Pre-loaded creative prompt suggestions to get started |
+| 📥 **Download & Copy** | Download generated images or copy prompts with one click |
+| 🖼️ **Image Gallery** | All generated images displayed in a responsive gallery grid |
+
 ### 🎙️ Voice & Code
 | Feature | Description |
 |---------|-------------|
@@ -81,6 +90,7 @@ The platform features a dark-mode glassmorphic UI with smooth Framer Motion anim
 |---------|-------------|
 | 🌑 **Dark/Light Themes** | Toggle themes with a single click |
 | ✨ **Glassmorphism** | Frosted glass cards, subtle blur, and gradient overlays |
+| 🌌 **Starfield Background** | Animated canvas-based starfield with nebulae and twinkling stars |
 | 🤖 **Animated Bot Mascot** | The Onyx bot follows your typing cursor with spring physics |
 | 🎭 **Framer Motion** | Smooth page transitions, message animations, and micro-interactions |
 
@@ -90,13 +100,15 @@ The platform features a dark-mode glassmorphic UI with smooth Framer Motion anim
 | 🔑 **JWT Authentication** | Token-based auth with 24-hour expiry |
 | 👤 **Profile Management** | Update display name, email, and password |
 | 🛡️ **Password Hashing** | SHA-256 with per-user random salts |
+| 💾 **Persistent Sessions** | Token stored in `localStorage` with auto-validation on mount |
 
 ### 📚 Additional Pages
 | Page | Description |
 |------|-------------|
 | 🧭 **Explore** | Browse featured AI models and capabilities by category |
 | ⚡ **Prompt Library** | Save, organize, and one-click deploy reusable prompts |
-| 📁 **Media & Files** | Drag-and-drop file manager with upload/delete support |
+| 🪄 **Image Gen** | Generate AI images with FLUX.1-schnell via Hugging Face |
+| 📁 **Media & Files** | Drag-and-drop file manager with upload, preview, and download support |
 | ⚙️ **Settings** | Profile, appearance, AI preferences, and session management |
 
 ---
@@ -104,46 +116,47 @@ The platform features a dark-mode glassmorphic UI with smooth Framer Motion anim
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        DOCKER COMPOSE                           │
-│                                                                 │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐  │
-│  │   Frontend    │    │   Backend    │    │   PostgreSQL     │  │
-│  │              │    │              │    │                  │  │
-│  │  React 19    │───▶│  FastAPI     │───▶│  postgres:16     │  │
-│  │  Vite 8      │    │  Uvicorn    │    │  -alpine         │  │
-│  │  TailwindCSS │    │  SQLAlchemy │    │                  │  │
-│  │              │    │              │    │  Tables:         │  │
-│  │  Port: 80    │    │  Port: 8000 │    │  • users         │  │
-│  │  (Nginx)     │    │              │    │  • chat_sessions │  │
-│  └──────┬───────┘    └──────┬───────┘    │  • chat_messages │  │
-│         │                   │            │                  │  │
-│         │   Nginx reverse   │            │  Port: 5432      │  │
-│         │   proxy /api/ ──▶│            │                  │  │
-│         │                   │            └──────────────────┘  │
-│         │                   │                                   │
-│         │                   ▼                                   │
-│         │            ┌──────────────┐                           │
-│         │            │   AI Services │                          │
-│         │            │              │                           │
-│         │            │  • Groq API  │  (Nexus personality)     │
-│         │            │  • Gemini API│  (Friendly helper)       │
-│         │            │  • Mistral   │  (Calm & precise)        │
-│         │            └──────────────┘                           │
-│         │                                                       │
-└─────────┴───────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                         APPLICATION                               │
+│                                                                   │
+│  ┌──────────────────┐              ┌──────────────────────────┐  │
+│  │    Frontend       │              │       Backend            │  │
+│  │                   │              │                          │  │
+│  │  React 19         │    /api/*    │  FastAPI                 │  │
+│  │  Vite 8           │────────────▶│  Uvicorn                 │  │
+│  │  TailwindCSS 4    │              │  SQLAlchemy              │  │
+│  │                   │              │                          │  │
+│  │  Dev: :5173       │              │  Port: 8000              │  │
+│  │  (Vite proxy)     │              │                          │  │
+│  └──────────────────┘              └──────────┬───────────────┘  │
+│                                                │                  │
+│                                    ┌───────────┼───────────┐     │
+│                                    ▼           ▼           ▼     │
+│                              ┌─────────┐ ┌─────────┐ ┌────────┐ │
+│                              │PostgreSQL│ │AI Services│ │HF API │ │
+│                              │  (Neon)  │ │          │ │(FLUX.1)│ │
+│                              │         │ │• Groq    │ │        │ │
+│                              │ Tables: │ │• Gemini  │ │ Image  │ │
+│                              │ • users │ │• Mistral │ │  Gen   │ │
+│                              │ • chats │ │          │ │        │ │
+│                              │ • msgs  │ └─────────┘ └────────┘ │
+│                              └─────────┘                         │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ### 🔄 Request Flow
 
 ```
-User ──▶ Nginx (port 80) ──▶ /api/* ──▶ FastAPI (port 8000)
-                │                              │
-                ▼                              ▼
-        Static React App              AI Service Layer
-                                       │    │    │
-                                       ▼    ▼    ▼
-                                     Groq Gemini Mistral
+User ──▶ React App ──▶ /api/* ──▶ FastAPI (port 8000)
+              │                         │
+              │  (Vite proxy in dev)     ├──▶ AI Service Layer
+              │                         │     │    │    │
+              ▼                         │     ▼    ▼    ▼
+      Rendered UI                       │   Groq Gemini Mistral
+                                        │
+                                        ├──▶ Hugging Face (Image Gen)
+                                        │
+                                        └──▶ PostgreSQL (Persistence)
 ```
 
 ---
@@ -153,64 +166,79 @@ User ──▶ Nginx (port 80) ──▶ /api/* ──▶ FastAPI (port 8000)
 ```
 onyx/
 │
-├── 📄 docker-compose.yml        # 🐳 Orchestrates all 3 services
-├── 📄 requirements.txt          # 🐍 Python dependencies
+├── 📄 README.md                     # Project documentation
 │
-├── 🤖 Ai's/                     # AI provider service layer
-│   ├── groq_service.py          #   └─ Nexus (Groq/LLaMA 3.1 8B)
-│   ├── gemini_service.py        #   └─ Google Gemini 2.5 Flash
-│   └── mistral_service.py       #   └─ Mistral Small Latest
+├── ⚙️ backend/                       # FastAPI application
+│   ├── .env                         #   └─ Environment variables (secrets)
+│   ├── .env.example                 #   └─ Environment variable template
+│   ├── .dockerignore                #   └─ Docker build exclusions
+│   ├── .gitignore                   #   └─ Git ignore rules
+│   ├── Dockerfile                   #   └─ Python 3.11-slim container
+│   ├── requirements.txt             #   └─ Python dependencies
+│   ├── main.py                      #   └─ Routes, middleware, CORS, endpoints
+│   ├── auth.py                      #   └─ JWT + password hashing
+│   ├── database.py                  #   └─ SQLAlchemy models + seeding
+│   │
+│   └── ai/                          #   └─ AI provider service layer
+│       ├── __init__.py              #       └─ Module init
+│       ├── groq_service.py          #       └─ Nexus (Groq/LLaMA 3.1 8B)
+│       ├── gemini_service.py        #       └─ Google Gemini 2.5 Flash
+│       ├── mistral_service.py       #       └─ Mistral Small Latest
+│       └── hugging_face.py          #       └─ FLUX.1-schnell Image Gen
 │
-├── ⚙️ backend/                   # FastAPI application
-│   ├── Dockerfile               #   └─ Python 3.11-slim container
-│   ├── main.py                  #   └─ Routes, middleware, CORS
-│   ├── auth.py                  #   └─ JWT + password hashing
-│   └── database.py              #   └─ SQLAlchemy models + seeding
-│
-├── 🎨 frontend/                  # React + Vite application
-│   ├── Dockerfile               #   └─ Multi-stage build (Node → Nginx)
-│   ├── nginx.conf               #   └─ Reverse proxy config
-│   ├── package.json             #   └─ Dependencies & scripts
-│   ├── index.html               #   └─ Entry HTML
-│   ├── vite.config.ts           #   └─ Vite configuration
+├── 🎨 frontend/                      # React + Vite application
+│   ├── .env.example                 #   └─ Frontend env template
+│   ├── .gitignore                   #   └─ Git ignore rules
+│   ├── index.html                   #   └─ Entry HTML
+│   ├── package.json                 #   └─ Dependencies & scripts
+│   ├── vite.config.ts               #   └─ Vite config + API proxy
+│   ├── tsconfig.json                #   └─ TypeScript config
+│   ├── tsconfig.app.json            #   └─ App TypeScript config
+│   ├── tsconfig.node.json           #   └─ Node TypeScript config
+│   ├── eslint.config.js             #   └─ ESLint configuration
+│   │
+│   ├── assets/                      #   └─ Static assets (hero.png, SVGs)
+│   ├── public/                      #   └─ Public assets (favicon, icons)
 │   │
 │   └── src/
-│       ├── main.tsx             #   └─ React DOM entry
-│       ├── App.tsx              #   └─ Root component + routing
-│       ├── App.css              #   └─ Global styles
-│       ├── index.css            #   └─ Tailwind base
+│       ├── main.tsx                 #   └─ React DOM entry
+│       ├── App.tsx                  #   └─ Root component + routing
+│       ├── App.css                  #   └─ Global styles
+│       ├── index.css                #   └─ Tailwind base + CSS variables
 │       │
-│       ├── context/             #   └─ React Context providers
-│       │   ├── AuthContext.tsx   #       └─ Auth state + API calls
-│       │   ├── ChatContext.tsx   #       └─ Chat state + AI calls
-│       │   └── ThemeContext.tsx  #       └─ Dark/Light theme toggle
+│       ├── context/                 #   └─ React Context providers
+│       │   ├── AuthContext.tsx       #       └─ Auth state + API calls
+│       │   ├── ChatContext.tsx       #       └─ Chat state + AI calls
+│       │   └── ThemeContext.tsx      #       └─ Dark/Light theme toggle
 │       │
 │       ├── components/
-│       │   ├── chat/            #   └─ Chat interface components
-│       │   │   ├── ChatArea.tsx      #   └─ Message list container
-│       │   │   ├── ChatInput.tsx     #   └─ Input bar + bot animation
-│       │   │   ├── EmptyState.tsx    #   └─ Welcome screen
-│       │   │   └── MessageBubble.tsx #   └─ Message rendering
+│       │   ├── chat/                #   └─ Chat interface components
+│       │   │   ├── ChatArea.tsx      #       └─ Message list container
+│       │   │   ├── ChatInput.tsx     #       └─ Input bar + bot animation
+│       │   │   ├── EmptyState.tsx    #       └─ Welcome screen
+│       │   │   └── MessageBubble.tsx #       └─ Message rendering
 │       │   │
-│       │   ├── layout/          #   └─ App layout components
-│       │   │   ├── MainLayout.tsx    #   └─ Page shell
-│       │   │   ├── Sidebar.tsx       #   └─ Chat history sidebar
-│       │   │   ├── TopNav.tsx        #   └─ Model selector + nav
-│       │   │   └── RightPanel.tsx    #   └─ Info/details panel
+│       │   ├── layout/              #   └─ App layout components
+│       │   │   ├── MainLayout.tsx    #       └─ Page shell
+│       │   │   ├── Sidebar.tsx       #       └─ Chat history sidebar
+│       │   │   ├── TopNav.tsx        #       └─ Model selector + nav
+│       │   │   └── RightPanel.tsx    #       └─ Info/details panel
 │       │   │
-│       │   ├── pages/           #   └─ Full page views
-│       │   │   ├── LoginPage.tsx     #   └─ Auth screen
-│       │   │   ├── ExplorePage.tsx   #   └─ Model discovery
-│       │   │   ├── PromptsPage.tsx   #   └─ Prompt library
-│       │   │   ├── MediaPage.tsx     #   └─ File manager
-│       │   │   └── SettingsPage.tsx  #   └─ User settings
+│       │   ├── pages/               #   └─ Full page views
+│       │   │   ├── LoginPage.tsx     #       └─ Auth screen
+│       │   │   ├── ExplorePage.tsx   #       └─ Model discovery
+│       │   │   ├── PromptsPage.tsx   #       └─ Prompt library
+│       │   │   ├── ImageGenPage.tsx  #       └─ AI image generation
+│       │   │   ├── MediaPage.tsx     #       └─ File manager
+│       │   │   └── SettingsPage.tsx  #       └─ User settings
 │       │   │
-│       │   └── ui/              #   └─ Shared UI primitives
-│       │       └── OnyxBotLogo.tsx   #   └─ Animated bot SVG
+│       │   └── ui/                  #   └─ Shared UI primitives
+│       │       ├── OnyxBotLogo.tsx   #       └─ Animated bot SVG
+│       │       └── StarfieldBackground.tsx # └─ Animated starfield canvas
 │       │
-│       └── lib/                 #   └─ Utility functions
-│
-└── 🐍 myenv/                    # Python virtual environment (local dev)
+│       └── lib/                     #   └─ Utility functions
+│           ├── api.ts               #       └─ Centralized API URL config
+│           └── utils.ts             #       └─ Utility helpers (cn, etc.)
 ```
 
 ---
@@ -221,84 +249,39 @@ onyx/
 
 | Tool | Version | Purpose |
 |------|---------|---------|
-| 🐳 **Docker** | 20.10+ | Container runtime |
-| 📦 **Docker Compose** | v2+ | Service orchestration |
-| 🌐 **Web Browser** | Modern | Chrome, Edge, Firefox |
+| 🐍 **Python** | 3.11+ | Backend runtime |
+| 📦 **Node.js** | 20+ | Frontend build & dev server |
+| 🗄️ **PostgreSQL** | 16+ | Database (local or [Neon.tech](https://neon.tech)) |
 
-> 💡 **That's it!** Docker handles everything — no need to install Node.js, Python, or PostgreSQL on your machine.
+> 💡 **Tip:** You can use [Neon.tech](https://neon.tech) for a free cloud PostgreSQL database — no local install needed.
 
-### 🐳 Quick Start (Docker)
-
-```bash
-# 1️⃣  Clone the repository
-git clone https://github.com/your-username/onyx.git
-cd onyx
-
-# 2️⃣  Build and start all services
-docker compose up -d --build
-
-# 3️⃣  Open in your browser
-#     🌐 http://localhost
-
-# 4️⃣  Login with default credentials
-#     👤 Username: pardha
-#     🔑 Password: password
-```
-
-> ⏱️ **First build takes 2–3 minutes** (downloading images + installing dependencies).
-> Subsequent starts are nearly instant.
-
-#### 🔧 Useful Docker Commands
+### ⚙️ Backend Setup
 
 ```bash
-# View logs for all services
-docker compose logs -f
+# 1. Navigate to backend directory
+cd backend
 
-# View logs for a specific service
-docker compose logs -f backend
-
-# Stop all services
-docker compose down
-
-# Stop and remove all data (⚠️ deletes database!)
-docker compose down -v
-
-# Rebuild a specific service
-docker compose up -d --build backend
-```
-
-### 🛠️ Manual Setup (Development)
-
-<details>
-<summary>📖 Click to expand manual setup instructions</summary>
-
-#### Backend
-
-```bash
-# 1. Create a Python virtual environment
+# 2. Create a Python virtual environment
 python -m venv myenv
 
-# 2. Activate it
+# 3. Activate it
 # Windows:
 myenv\Scripts\activate
 # macOS/Linux:
 source myenv/bin/activate
 
-# 3. Install dependencies
+# 4. Install dependencies
 pip install -r requirements.txt
 
-# 4. Start PostgreSQL (or use Docker just for the DB)
-docker compose up -d postgres
-
-# 5. Set the database URL (if not using default)
-set DATABASE_URL=postgresql://onyx:onyxpass@localhost:5432/onyxdb
+# 5. Configure environment variables
+#    Copy .env.example to .env and fill in your API keys
+cp .env.example .env
 
 # 6. Run the backend server
-cd backend
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-#### Frontend
+### 🎨 Frontend Setup
 
 ```bash
 # 1. Navigate to frontend directory
@@ -307,13 +290,44 @@ cd frontend
 # 2. Install Node.js dependencies
 npm install
 
-# 3. Start the Vite dev server
+# 3. (Optional) Configure environment variables
+#    Copy .env.example to .env for production API URL
+cp .env.example .env
+
+# 4. Start the Vite dev server
 npm run dev
 ```
 
 > ⚠️ **Note:** In development mode, the frontend runs on `http://localhost:5173` and the backend on `http://localhost:8000`. The Vite dev server proxies `/api` requests automatically via `vite.config.ts`.
 
-</details>
+### 🔑 Environment Variables
+
+#### Backend (`backend/.env`)
+
+```env
+# Database — PostgreSQL connection string (local or Neon.tech)
+DATABASE_URL=postgresql://onyx:onyxpass@localhost:5432/onyxdb
+
+# LLM API Keys
+GROQ_API_KEY=your_groq_api_key
+GEMINI_API_KEY=your_gemini_api_key
+MISTRAL_API_KEY=your_mistral_api_key
+HF_TOKEN=your_huggingface_token
+
+# Auth — JWT signing secret (use a long random string in production)
+JWT_SECRET_KEY=your_secret_key
+
+# CORS — Frontend URL (leave empty or * for development)
+FRONTEND_URL=
+```
+
+#### Frontend (`frontend/.env`)
+
+```env
+# Backend API URL — leave empty for local dev (Vite proxy handles it)
+# Set to deployed backend URL in production
+VITE_API_URL=
+```
 
 ---
 
@@ -338,11 +352,15 @@ Login Request                    Server Response
 POST /api/login         ──▶      { token: "eyJ...", user: {...} }
   { username, password }                │
                                         ▼
-                              Token stored in React state
+                              Token stored in localStorage
                                         │
                                         ▼
                            All subsequent requests include:
                            Authorization: Bearer <token>
+                                        │
+                                        ▼
+                           Token verified on mount via
+                           GET /api/profile
 ```
 
 ### 🛡️ Security Details
@@ -352,16 +370,18 @@ POST /api/login         ──▶      { token: "eyJ...", user: {...} }
 | **Hashing** | SHA-256 with 32-byte random salt per user |
 | **Token Format** | JWT (HS256 algorithm) |
 | **Token Expiry** | 24 hours |
-| **Secret Key** | Configurable via `SECRET_KEY` in `auth.py` |
+| **Secret Key** | Configurable via `JWT_SECRET_KEY` env variable |
+| **Storage** | `localStorage` with key `onyx_auth_token` |
 | **Transport** | HTTP Bearer token in `Authorization` header |
+| **Validation** | Auto-validates stored token on app mount |
 
-> ⚠️ **Production Warning:** Change the `SECRET_KEY` in `backend/auth.py` before deploying to production. The default key is for development only.
+> ⚠️ **Production Warning:** Set a strong `JWT_SECRET_KEY` in your `backend/.env` before deploying. The default key is for development only.
 
 ---
 
 ## 🤖 AI Models
 
-Onyx integrates **three distinct AI providers**, each with a unique personality:
+Onyx integrates **three distinct AI chat providers**, each with a unique personality:
 
 ### 🟢 Nexus (Groq)
 | Property | Value |
@@ -403,9 +423,40 @@ Models can be switched from:
 
 ---
 
+## 🎨 Image Generation
+
+Onyx includes a built-in **AI image generation** page powered by **Hugging Face's FLUX.1-schnell** model.
+
+| Property | Value |
+|----------|-------|
+| **Provider** | Hugging Face Serverless Inference API |
+| **Model** | `black-forest-labs/FLUX.1-schnell` |
+| **Output** | PNG images (base64 encoded) |
+| **API Key** | `HF_TOKEN` environment variable |
+
+### Features
+
+- **Text-to-image** generation from natural language prompts
+- **Prompt suggestions** — 6 curated creative prompts to get started
+- **Image gallery** — all generated images displayed in a responsive 2-column grid
+- **Download** — save any generated image as PNG
+- **Copy prompt** — copy the prompt text to clipboard for reuse
+- **Error handling** — friendly messages for rate limits, model loading, permission errors
+
+> 💡 **Tip:** Hugging Face free tier has rate limits. If you hit a `429` error, wait a minute and try again.
+
+---
+
 ## 📡 API Reference
 
-All endpoints are prefixed with `/api` and require JWT authentication (except login).
+All endpoints are prefixed with `/api` and require JWT authentication (except login and health check).
+
+### 🏥 Health Check
+
+#### `GET /`
+> Health check endpoint. Returns `{"status": "ok", "service": "Onyx AI Backend"}`.
+
+---
 
 ### 🔓 Authentication Endpoints
 
@@ -470,7 +521,8 @@ All endpoints are prefixed with `/api` and require JWT authentication (except lo
 
 // Response (200 OK)
 {
-  "response": "Oh, you want me to solve philosophy now? 🙄 Fine..."
+  "response": "Oh, you want me to solve philosophy now? 🙄 Fine...",
+  "is_error": false
 }
 ```
 
@@ -514,6 +566,34 @@ All endpoints are prefixed with `/api` and require JWT authentication (except lo
 
 ---
 
+### 🎨 Image Generation Endpoint
+
+#### `POST /api/generate-image`
+> Generate an image using FLUX.1-schnell via Hugging Face.
+
+```json
+// Request
+{
+  "prompt": "A mystical forest with glowing mushrooms at twilight"
+}
+
+// Response (200 OK)
+{
+  "success": true,
+  "image_base64": "iVBORw0KGgo...",
+  "prompt": "A mystical forest with glowing mushrooms at twilight",
+  "mime_type": "image/png"
+}
+
+// Response (Error)
+{
+  "success": false,
+  "error": "⏳ **Rate Limit Reached**\n\nHugging Face free tier has a rate limit. Please wait a minute and try again."
+}
+```
+
+---
+
 ## 🖥️ Frontend Pages
 
 ### 🏠 Home — Chat Interface
@@ -527,7 +607,7 @@ The main chat experience with:
 
 ### 🔐 Login Page
 A premium login experience featuring:
-- Animated gradient background orbs
+- Animated starfield background with nebulae
 - Glassmorphic login card
 - Shake animation on invalid credentials
 - Loading spinner during authentication
@@ -546,11 +626,20 @@ Save and manage reusable prompts:
 - Create custom prompts with title, description, and category
 - Usage counters per prompt
 
+### 🪄 Image Gen Page
+AI-powered image generation:
+- Text prompt input with keyboard shortcuts (`Enter` to generate, `Shift+Enter` for new line)
+- Pre-loaded creative prompt suggestions
+- Loading animation with rotating border effect
+- Generated image gallery with hover overlay actions (download, copy prompt)
+- Friendly error handling with contextual messages
+
 ### 📁 Media & Files Page
 A full file management experience:
 - Drag-and-drop upload zone with visual feedback
-- Tabular file listing with type icons
-- Context menu for file actions (delete)
+- Tabular file listing with type icons and thumbnails
+- In-app preview modal for images, videos, and PDFs
+- Context menu for file actions (open, download, delete)
 - Automatic file type detection
 
 ### ⚙️ Settings Page
@@ -563,62 +652,29 @@ Complete user and app configuration:
 
 ---
 
-## 🐳 Docker Details
-
-### Services
-
-| Service | Image | Port | Description |
-|---------|-------|------|-------------|
-| 🗄️ `postgres` | `postgres:16-alpine` | `5432` | PostgreSQL database |
-| ⚙️ `backend` | Custom (Python 3.11) | `8000` | FastAPI + AI services |
-| 🎨 `frontend` | Custom (Nginx) | `80` | React app + reverse proxy |
-
-### Volumes
-
-| Volume | Mount | Purpose |
-|--------|-------|---------|
-| `pgdata` | `/var/lib/postgresql/data` | Persist database across restarts |
-
-### Health Checks
-
-The `postgres` service includes a health check that runs `pg_isready` every 5 seconds. The `backend` service waits for PostgreSQL to be healthy before starting (`depends_on` with `condition: service_healthy`).
-
-### Build Pipeline
-
-```
-Frontend Build (Multi-stage):
-  Stage 1: node:20-alpine → npm install → npm run build → /app/dist
-  Stage 2: nginx:alpine ← copy dist + nginx.conf → serve on port 80
-
-Backend Build:
-  python:3.11-slim → pip install requirements → copy backend/ + Ai's/ → uvicorn
-```
-
----
-
 ## ⚙️ Configuration
 
 ### 🔑 Environment Variables
 
-| Variable | Default | Service | Description |
-|----------|---------|---------|-------------|
-| `DATABASE_URL` | `postgresql://onyx:onyxpass@postgres:5432/onyxdb` | Backend | PostgreSQL connection string |
-| `POSTGRES_USER` | `onyx` | PostgreSQL | Database user |
-| `POSTGRES_PASSWORD` | `onyxpass` | PostgreSQL | Database password |
-| `POSTGRES_DB` | `onyxdb` | PostgreSQL | Database name |
-| `PYTHONUNBUFFERED` | `1` | Backend | Ensure Python logs are visible in Docker |
+#### Backend (`backend/.env`)
 
-### 🔧 API Keys
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DATABASE_URL` | `postgresql://onyx:onyxpass@localhost:5432/onyxdb` | PostgreSQL connection string |
+| `GROQ_API_KEY` | — | Groq API key for Nexus |
+| `GEMINI_API_KEY` | — | Google AI API key for Gemini |
+| `MISTRAL_API_KEY` | — | Mistral AI API key |
+| `HF_TOKEN` | — | Hugging Face token for image generation |
+| `JWT_SECRET_KEY` | `onyx-secret-key-change-in-production` | JWT signing secret |
+| `FRONTEND_URL` | — | Frontend URL for CORS (leave empty for dev) |
 
-API keys are currently hardcoded in the AI service files (for development convenience). For production, move them to environment variables:
+#### Frontend (`frontend/.env`)
 
-| Key | File | Environment Variable |
-|-----|------|---------------------|
-| Groq API Key | `Ai's/groq_service.py` | `GROQ_API_KEY` |
-| Gemini API Key | `Ai's/gemini_service.py` | `GEMINI_API_KEY` |
-| Mistral API Key | `Ai's/mistral_service.py` | `MISTRAL_API_KEY` |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VITE_API_URL` | `""` (empty) | Backend API URL. Empty = use Vite proxy for dev |
 
-> 🔴 **Important:** Before pushing to any public repository, remove hardcoded API keys and use environment variables instead.
+> 🔴 **Important:** Never commit `.env` files to version control. Use `.env.example` as a template.
 
 ---
 
@@ -633,7 +689,7 @@ API keys are currently hardcoded in the AI service files (for development conven
 | 🎨 TailwindCSS | 4.3 | Utility-first styling |
 | 🎭 Framer Motion | 12.40 | Animations |
 | 🔷 Lucide React | 1.17 | Icon library |
-| 🌐 Nginx | Alpine | Production serving & reverse proxy |
+| 🧩 clsx + tailwind-merge | Latest | Conditional class utilities |
 
 ### Backend
 | Technology | Version | Purpose |
@@ -642,16 +698,21 @@ API keys are currently hardcoded in the AI service files (for development conven
 | 🚀 FastAPI | Latest | Web framework |
 | 🦄 Uvicorn | Latest | ASGI server |
 | 🗃️ SQLAlchemy | Latest | ORM |
-| 🐘 psycopg2 | Latest | PostgreSQL driver |
+| 🐘 psycopg2-binary | Latest | PostgreSQL driver |
 | 🔐 python-jose | Latest | JWT encoding/decoding |
 | 📝 Pydantic | Latest | Data validation |
+| 🔑 passlib | Latest | Password hashing utilities |
+| 🌱 python-dotenv | Latest | Environment variable loading |
+| 🤗 huggingface_hub | Latest | Hugging Face API client |
+| 🖼️ Pillow | Latest | Image processing |
 
 ### AI Providers
-| Provider | SDK | Model |
-|----------|-----|-------|
-| 🟢 Groq | `groq` | LLaMA 3.1 8B Instant |
-| 🔵 Google | `google-genai` | Gemini 2.5 Flash |
-| 🟠 Mistral AI | `mistralai` | Mistral Small Latest |
+| Provider | SDK | Model | Capability |
+|----------|-----|-------|------------|
+| 🟢 Groq | `groq` | LLaMA 3.1 8B Instant | Chat |
+| 🔵 Google | `google-genai` | Gemini 2.5 Flash | Chat + Vision |
+| 🟠 Mistral AI | `mistralai` | Mistral Small Latest | Chat + Vision |
+| 🟡 Hugging Face | `huggingface_hub` | FLUX.1-schnell | Image Generation |
 
 ---
 
@@ -664,8 +725,10 @@ API keys are currently hardcoded in the AI service files (for development conven
 - [ ] 🔍 Full-text search across chat history
 - [ ] 👥 Multi-user registration
 - [ ] 🌊 Streaming responses (SSE)
-- [ ] 🔑 Environment variable-based API key management
 - [ ] 📊 Usage analytics dashboard
+- [x] 🔑 Environment variable-based API key management
+- [x] 🎨 AI image generation (FLUX.1)
+- [x] 🌌 Animated starfield background
 
 ---
 
