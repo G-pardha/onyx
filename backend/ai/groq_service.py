@@ -38,7 +38,7 @@ async def generate_response(messages: list) -> str:
 
     try:
         raw_response = client.chat.completions.with_raw_response.create(
-            model="llama-3.1-8b-instant", messages=messages
+            model="openai/gpt-oss-20b", messages=messages
         )
 
         completion = raw_response.parse()
